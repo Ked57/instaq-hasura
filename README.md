@@ -7,6 +7,30 @@
 
 > Migrations and metadatas for instaq's hasura instance
 
+## Get started
+
+First, you need to use docker-compose on your computer
+
+```sh
+docker-compose up -d
+```
+
+Then install the hasura cli: https://docs.hasura.io/1.0/graphql/manual/hasura-cli/install-hasura-cli.html
+
+And then apply the migrations and metadatas
+
+```sh
+cd hasura
+hasura metadata apply
+hasura migrate apply
+```
+
+You can also open the console and the migrations will be auto generated into your migrations folder
+
+```sh
+hasura console
+```
+
 ## Author
 
 👤 **Clément Fassot**
