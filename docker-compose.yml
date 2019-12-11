@@ -1,0 +1,25 @@
+version: "3.2"
+services:
+  postgres:
+    image: postgres:11
+    ports:
+      - "5433:5432"
+    networks:
+        - netnet
+  hasura:
+    image: hasura/graphql-engine:v1.0.0-rc.1
+    ports:
+      - "8080:8080"
+    depends_on:
+      - "postgres"
+    networks:
+        - netnet
+    environment:
+      HASURA_GRAPHQL_DATABASE_URL: postgres://postgres:@postgres:5432/postgres
+      HASURA_GRAPHQL_ENABLE_CONSOLE: "true"
+      HASURA_GRAPHQL_ENABLED_APIS: "metadata,graphql"
+      HASURA_GRAPHQL_ADMIN_SECRET: key
+
+networks:
+  netnet:
+    driver: bridge

@@ -1,0 +1,477 @@
+{
+  "functions": [],
+  "remote_schemas": [],
+  "query_collections": [],
+  "allowlist": [],
+  "tables": [
+    {
+      "table": "comment",
+      "is_enum": false,
+      "configuration": {
+        "custom_root_fields": {
+          "select": null,
+          "select_by_pk": null,
+          "select_aggregate": null,
+          "insert": null,
+          "update": null,
+          "delete": null
+        },
+        "custom_column_names": {}
+      },
+      "object_relationships": [
+        {
+          "using": { "foreign_key_constraint_on": "post_id" },
+          "name": "post",
+          "comment": null
+        },
+        {
+          "using": { "foreign_key_constraint_on": "comment_status" },
+          "name": "status",
+          "comment": null
+        },
+        {
+          "using": { "foreign_key_constraint_on": "user_id" },
+          "name": "user",
+          "comment": null
+        }
+      ],
+      "array_relationships": [],
+      "insert_permissions": [
+        {
+          "role": "user",
+          "comment": null,
+          "permission": {
+            "set": { "user_id": "x-hasura-User-Id" },
+            "check": { "user_id": { "_eq": "X-Hasura-User-Id" } },
+            "columns": ["comment_status", "content", "created_at", "post_id"]
+          }
+        }
+      ],
+      "select_permissions": [
+        {
+          "role": "user",
+          "comment": null,
+          "permission": {
+            "allow_aggregations": true,
+            "computed_fields": [],
+            "columns": [
+              "id",
+              "post_id",
+              "created_at",
+              "content",
+              "comment_status"
+            ],
+            "filter": { "user_id": { "_eq": "X-Hasura-User-Id" } }
+          }
+        }
+      ],
+      "update_permissions": [
+        {
+          "role": "user",
+          "comment": null,
+          "permission": {
+            "set": {},
+            "columns": ["content", "created_at"],
+            "filter": { "user_id": { "_eq": "X-Hasura-User-Id" } }
+          }
+        }
+      ],
+      "delete_permissions": [
+        {
+          "role": "user",
+          "comment": null,
+          "permission": {
+            "filter": { "user_id": { "_eq": "X-Hasura-User-Id" } }
+          }
+        }
+      ],
+      "event_triggers": [],
+      "computed_fields": []
+    },
+    {
+      "table": "follow",
+      "is_enum": false,
+      "configuration": {
+        "custom_root_fields": {
+          "select": null,
+          "select_by_pk": null,
+          "select_aggregate": null,
+          "insert": null,
+          "update": null,
+          "delete": null
+        },
+        "custom_column_names": {}
+      },
+      "object_relationships": [
+        {
+          "using": { "foreign_key_constraint_on": "followee_id" },
+          "name": "followees",
+          "comment": null
+        },
+        {
+          "using": { "foreign_key_constraint_on": "follower_id" },
+          "name": "followers",
+          "comment": null
+        }
+      ],
+      "array_relationships": [],
+      "insert_permissions": [
+        {
+          "role": "user",
+          "comment": null,
+          "permission": {
+            "set": { "follower_id": "x-hasura-User-Id" },
+            "check": {},
+            "columns": ["followee_id", "follower_id"]
+          }
+        }
+      ],
+      "select_permissions": [
+        {
+          "role": "user",
+          "comment": null,
+          "permission": {
+            "allow_aggregations": true,
+            "computed_fields": [],
+            "columns": ["id", "follower_id", "followee_id"],
+            "filter": {}
+          }
+        }
+      ],
+      "update_permissions": [],
+      "delete_permissions": [
+        {
+          "role": "user",
+          "comment": null,
+          "permission": {
+            "filter": { "follower_id": { "_eq": "X-Hasura-User-Id" } }
+          }
+        }
+      ],
+      "event_triggers": [],
+      "computed_fields": []
+    },
+    {
+      "table": "like",
+      "is_enum": false,
+      "configuration": {
+        "custom_root_fields": {
+          "select": null,
+          "select_by_pk": null,
+          "select_aggregate": null,
+          "insert": null,
+          "update": null,
+          "delete": null
+        },
+        "custom_column_names": {}
+      },
+      "object_relationships": [
+        {
+          "using": { "foreign_key_constraint_on": "post_id" },
+          "name": "post",
+          "comment": null
+        },
+        {
+          "using": { "foreign_key_constraint_on": "user_id" },
+          "name": "user",
+          "comment": null
+        }
+      ],
+      "array_relationships": [],
+      "insert_permissions": [
+        {
+          "role": "user",
+          "comment": null,
+          "permission": {
+            "set": { "user_id": "x-hasura-User-Id" },
+            "check": { "user_id": { "_eq": "X-Hasura-User-Id" } },
+            "columns": ["post_id", "user_id"]
+          }
+        }
+      ],
+      "select_permissions": [
+        {
+          "role": "user",
+          "comment": null,
+          "permission": {
+            "allow_aggregations": true,
+            "computed_fields": [],
+            "columns": ["post_id", "user_id"],
+            "filter": {}
+          }
+        }
+      ],
+      "update_permissions": [],
+      "delete_permissions": [
+        {
+          "role": "user",
+          "comment": null,
+          "permission": {
+            "filter": { "user_id": { "_eq": "X-Hasura-User-Id" } }
+          }
+        }
+      ],
+      "event_triggers": [],
+      "computed_fields": []
+    },
+    {
+      "table": "post",
+      "is_enum": false,
+      "configuration": {
+        "custom_root_fields": {
+          "select": null,
+          "select_by_pk": null,
+          "select_aggregate": null,
+          "insert": null,
+          "update": null,
+          "delete": null
+        },
+        "custom_column_names": {}
+      },
+      "object_relationships": [
+        {
+          "using": { "foreign_key_constraint_on": "post_status" },
+          "name": "status",
+          "comment": null
+        },
+        {
+          "using": { "foreign_key_constraint_on": "user_id" },
+          "name": "user",
+          "comment": null
+        }
+      ],
+      "array_relationships": [
+        {
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "post_id",
+              "table": "comment"
+            }
+          },
+          "name": "comments",
+          "comment": null
+        },
+        {
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "post_id",
+              "table": "like"
+            }
+          },
+          "name": "likes",
+          "comment": null
+        }
+      ],
+      "insert_permissions": [
+        {
+          "role": "user",
+          "comment": null,
+          "permission": {
+            "set": { "user_id": "x-hasura-User-Id" },
+            "check": {},
+            "columns": ["content", "photo_url"]
+          }
+        }
+      ],
+      "select_permissions": [
+        {
+          "role": "user",
+          "comment": null,
+          "permission": {
+            "allow_aggregations": true,
+            "computed_fields": [],
+            "columns": [
+              "content",
+              "created_at",
+              "id",
+              "photo_url",
+              "post_status"
+            ],
+            "filter": {}
+          }
+        }
+      ],
+      "update_permissions": [
+        {
+          "role": "user",
+          "comment": null,
+          "permission": {
+            "set": {},
+            "columns": ["content"],
+            "filter": { "user_id": { "_eq": "X-Hasura-User-Id" } }
+          }
+        }
+      ],
+      "delete_permissions": [
+        {
+          "role": "user",
+          "comment": null,
+          "permission": {
+            "filter": { "user_id": { "_eq": "X-Hasura-User-Id" } }
+          }
+        }
+      ],
+      "event_triggers": [],
+      "computed_fields": []
+    },
+    {
+      "table": "status",
+      "is_enum": false,
+      "configuration": {
+        "custom_root_fields": {
+          "select": null,
+          "select_by_pk": null,
+          "select_aggregate": null,
+          "insert": null,
+          "update": null,
+          "delete": null
+        },
+        "custom_column_names": {}
+      },
+      "object_relationships": [],
+      "array_relationships": [],
+      "insert_permissions": [],
+      "select_permissions": [
+        {
+          "role": "user",
+          "comment": null,
+          "permission": {
+            "allow_aggregations": false,
+            "computed_fields": [],
+            "columns": ["id", "status_name"],
+            "filter": {}
+          }
+        }
+      ],
+      "update_permissions": [],
+      "delete_permissions": [],
+      "event_triggers": [],
+      "computed_fields": []
+    },
+    {
+      "table": "user",
+      "is_enum": false,
+      "configuration": {
+        "custom_root_fields": {
+          "select": null,
+          "select_by_pk": null,
+          "select_aggregate": null,
+          "insert": null,
+          "update": null,
+          "delete": null
+        },
+        "custom_column_names": {}
+      },
+      "object_relationships": [
+        {
+          "using": { "foreign_key_constraint_on": "user_status" },
+          "name": "status",
+          "comment": null
+        }
+      ],
+      "array_relationships": [
+        {
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "user_id",
+              "table": "comment"
+            }
+          },
+          "name": "comments",
+          "comment": null
+        },
+        {
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "followee_id",
+              "table": "follow"
+            }
+          },
+          "name": "followers",
+          "comment": null
+        },
+        {
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "follower_id",
+              "table": "follow"
+            }
+          },
+          "name": "follows",
+          "comment": null
+        },
+        {
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "user_id",
+              "table": "like"
+            }
+          },
+          "name": "likes",
+          "comment": null
+        },
+        {
+          "using": {
+            "foreign_key_constraint_on": {
+              "column": "user_id",
+              "table": "post"
+            }
+          },
+          "name": "posts",
+          "comment": null
+        }
+      ],
+      "insert_permissions": [
+        {
+          "role": "user",
+          "comment": null,
+          "permission": {
+            "set": {
+              "id": "x-hasura-User-Id",
+              "avatar_url": "https://instaq-s3.s3.fr-par.scw.cloud/avatar-profil"
+            },
+            "check": { "id": { "_eq": "X-Hasura-User-Id" } },
+            "columns": ["description", "id", "user_name", "user_status"]
+          }
+        }
+      ],
+      "select_permissions": [
+        {
+          "role": "user",
+          "comment": null,
+          "permission": {
+            "allow_aggregations": true,
+            "computed_fields": [],
+            "columns": [
+              "avatar_url",
+              "description",
+              "id",
+              "user_name",
+              "user_status"
+            ],
+            "filter": {}
+          }
+        }
+      ],
+      "update_permissions": [
+        {
+          "role": "user",
+          "comment": null,
+          "permission": {
+            "set": {},
+            "columns": [
+              "avatar_url",
+              "description",
+              "user_name",
+              "user_status"
+            ],
+            "filter": { "id": { "_eq": "X-Hasura-User-Id" } }
+          }
+        }
+      ],
+      "delete_permissions": [],
+      "event_triggers": [],
+      "computed_fields": []
+    }
+  ]
+}

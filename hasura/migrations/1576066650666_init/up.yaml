@@ -1,0 +1,30 @@
+- args:
+    cascade: true
+    sql: "CREATE EXTENSION IF NOT EXISTS citext;\nCREATE EXTENSION IF NOT EXISTS pgcrypto;\n\nCREATE
+      TABLE \"status\" (\n    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    status_name
+      VARCHAR NOT NULL UNIQUE\n);\n\nINSERT INTO \"status\" (status_name) VALUES ('OK'),
+      ('MODERATED'), ('ARCHIVED');\n\nCREATE OR REPLACE FUNCTION id_in_status(status
+      varchar) RETURNS UUID LANGUAGE SQL AS\n$$ SELECT id FROM status WHERE status
+      = status; $$;\n\nCREATE TABLE \"user\" (\n    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n
+      \   user_id VARCHAR NOT NULL UNIQUE,\n    user_name citext NOT NULL UNIQUE,\n
+      \   firstname citext NOT NULL,\n    lastname citext NOT NULL,\n    \"description\"
+      VARCHAR NOT NULL,\n    avatar_url VARCHAR NOT NULL,\n    user_status UUID NOT
+      NULL DEFAULT id_in_status('OK'),\n    FOREIGN KEY (user_status) REFERENCES \"status\"
+      (id)\n);\n\nCREATE TABLE \"post\" (\n    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n
+      \   user_id UUID NOT NULL,\n    created_at TIMESTAMP NOT NULL DEFAULT now(),\n
+      \   photo_url VARCHAR NOT NULL,\n    content VARCHAR NOT NULL,\n    post_status
+      UUID NOT NULL DEFAULT id_in_status('OK'),\n    FOREIGN KEY (user_id) REFERENCES
+      \"user\" (id),\n    FOREIGN KEY (post_status) REFERENCES \"status\" (id)\n);\n\nCREATE
+      TABLE \"follow\" (\n\tid UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    follower_id
+      UUID,\n    followee_id UUID,\n    FOREIGN KEY (follower_id) REFERENCES \"user\"
+      (id),\n    FOREIGN KEY (followee_id) REFERENCES \"user\" (id)\n);\n\nCREATE
+      TABLE \"like\" (\n\tid UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    user_id
+      UUID,\n    post_id UUID,\n    FOREIGN KEY (user_id) REFERENCES \"user\" (id),\n
+      \   FOREIGN KEY (post_id) REFERENCES \"post\" (id)\n);\n\nCREATE TABLE \"comment\"
+      (\n    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n    user_id UUID NOT
+      NULL,\n    post_id UUID NOT NULL,\n    created_at TIMESTAMP NOT NULL DEFAULT
+      now(),\n    content VARCHAR NOT NULL,\n    comment_status UUID NOT NULL DEFAULT
+      id_in_status('OK'),\n    FOREIGN KEY (user_id) REFERENCES \"user\" (id),\n    FOREIGN
+      KEY (post_id) REFERENCES \"post\" (id),\n    FOREIGN KEY (comment_status) REFERENCES
+      \"status\" (id)\n);"
+  type: run_sql
