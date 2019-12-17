@@ -21,8 +21,8 @@ And then apply the migrations and metadatas
 
 ```sh
 cd hasura
-hasura metadata apply
 hasura migrate apply
+hasura metadata apply
 ```
 
 You can also open the console and the migrations will be auto generated into your migrations folder
